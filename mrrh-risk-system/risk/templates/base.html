@@ -1,0 +1,47 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Maternal risk support{% endblock %} · MRRH prototype</title>
+<link rel="stylesheet" href="{% static 'risk/vendor/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'risk/css/app.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-mrrh">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home' %}"><span class="brand-mark">M</span>MRRH Risk Support</a>
+    <button class="navbar-toggler border-light" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav me-auto">
+        {% if user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'assess_new' %}">New assessment</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'history' %}">History</a></li>
+        {% endif %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About the model</a></li>
+        {% if user.is_staff %}<li class="nav-item"><a class="nav-link" href="/admin/">Admin</a></li>{% endif %}
+      </ul>
+      {% if user.is_authenticated %}
+      <form method="post" action="{% url 'logout' %}" class="d-flex align-items-center gap-2">{% csrf_token %}
+        <span class="text-white-50 small">{{ user.get_username }}{% if user.is_staff %} · supervisor{% endif %}</span>
+        <button class="btn btn-sm btn-outline-light" type="submit">Log out</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+{% if DEMO_MODE %}
+<div class="demo-banner py-2"><div class="container"><strong>Prototype for demonstration.</strong> The model is trained on synthetic data and has not been validated at Mbarara Regional Referral Hospital. Not for clinical use. Do not enter real patient names or contact details.</div></div>
+{% endif %}
+<main class="container py-4">
+  {% for m in messages %}<div class="alert alert-{% if m.tags == 'error' %}danger{% else %}{{ m.tags|default:'info' }}{% endif %}" role="alert">{{ m }}</div>{% endfor %}
+  {% block content %}{% endblock %}
+</main>
+<footer class="container pb-4">
+  <hr>
+  <p class="mb-1">Decision support only. This tool does not diagnose, prescribe treatment or make referral decisions. A qualified health professional must review every case.</p>
+  <p>Machine Learning-Based Maternal Health Risk Prediction · Case study: Mbarara Regional Referral Hospital · University of Saint Joseph Mbarara</p>
+</footer>
+<script src="{% static 'risk/vendor/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

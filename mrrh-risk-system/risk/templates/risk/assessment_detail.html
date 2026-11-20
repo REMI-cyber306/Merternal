@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Result{% endblock %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-5">
+    <div class="card card-soft p-4 text-center">
+      <div class="text-muted">Predicted risk category</div>
+      <div class="my-3"><span class="badge-risk risk-{{ a.predicted_category }}">{{ a.predicted_category }}</span></div>
+      <p class="mb-2 fw-semibold">Study code: {{ a.study_id }}</p>
+      <p class="text-muted small mb-0">{{ a.created_at|date:"d M Y, H:i" }} · entered by {{ a.user.get_username }}</p>
+    </div>
+    <div class="card card-pale p-3 mt-3">
+      <p class="mb-2"><strong>Decision support only.</strong> This is not a diagnosis. It does not prescribe treatment or decide referral. A qualified health professional must review the woman and the recorded values.</p>
+      <p class="mb-0 small text-muted">Alert and referral wording is pending review by MRRH obstetric staff, so none is shown here.</p>
+    </div>
+    <div class="card card-soft p-3 mt-3">
+      <div class="small text-muted">Model {{ a.model_version }}. {% if DEMO_MODE %}Demonstration model trained on synthetic data. Not validated at MRRH.{% endif %} <a href="{% url 'about' %}">About the model</a></div>
+    </div>
+    <div class="mt-3 d-flex gap-2"><a class="btn btn-mrrh" href="{% url 'assess_new' %}">New assessment</a><a class="btn btn-outline-mrrh" href="{% url 'history' %}">History</a></div>
+  </div>
+  <div class="col-lg-7">
+    <div class="card card-soft p-4">
+      <h2 class="h5">Values used</h2>
+      <table class="table table-sm mb-3">
+        <tbody>
+          <tr><th>Age</th><td>{{ a.age }} years</td><th>Gestational age</th><td>{{ a.gestational_weeks }} weeks</td></tr>
+          <tr><th>Blood pressure</th><td>{{ a.systolic_bp }}/{{ a.diastolic_bp }} mmHg</td><th>Heart rate</th><td>{{ a.heart_rate }} bpm</td></tr>
+          <tr><th>Blood glucose</th><td>{{ a.glucose_mmol }} mmol/L</td><th>Temperature</th><td>{{ a.temp_c }} °C</td></tr>
+          <tr><th>Parity</th><td>{{ a.parity }}</td><th>Previous caesarean</th><td>{{ a.previous_caesarean|yesno:"Yes,No" }}</td></tr>
+          <tr><th>Pre-existing condition</th><td colspan="3">{{ a.pre_existing_condition|yesno:"Yes,No" }}</td></tr>
+        </tbody>
+      </table>
+      <h3 class="h6">Symptoms recorded</h3>
+      {% if symptoms %}<p>{% for s in symptoms %}<span class="chip" style="background:var(--g-pale);color:var(--g-dark)">{{ s }}</span> {% endfor %}</p>{% else %}<p class="text-muted">None recorded.</p>{% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

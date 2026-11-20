@@ -1,0 +1,25 @@
+:root{--g-dark:#0e5a2a;--g:#178f43;--g-light:#7dc242;--g-pale:#e3f4d7;--ink:#1f2a24;--muted:#4f5f55;--amber:#f2a900;--red:#c93a3a}
+body{color:var(--ink);background:#f6faf4;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+.navbar-mrrh{background:linear-gradient(90deg,var(--g-dark),var(--g))}
+.navbar-mrrh .navbar-brand,.navbar-mrrh .nav-link{color:#fff}
+.navbar-mrrh .nav-link:hover{color:var(--g-pale)}
+.brand-mark{display:inline-block;width:2rem;height:2rem;border-radius:50%;background:#fff;color:var(--g);font-weight:800;line-height:2rem;text-align:center;margin-right:.5rem}
+.demo-banner{background:#fff4d6;border-bottom:2px solid var(--amber);color:#5a3d00;font-size:.92rem}
+.btn-mrrh{background:var(--g);border-color:var(--g);color:#fff}
+.btn-mrrh:hover{background:var(--g-dark);border-color:var(--g-dark);color:#fff}
+.btn-outline-mrrh{border-color:var(--g);color:var(--g)}
+.btn-outline-mrrh:hover{background:var(--g);color:#fff}
+.card-soft{background:#fff;border:0;border-radius:1rem;box-shadow:0 1px 3px rgba(14,90,42,.12)}
+.card-pale{background:var(--g-pale);border:0;border-radius:1rem}
+h1,h2,h3,.h4,.h5{color:var(--g-dark)}
+.stat{font-size:2.4rem;font-weight:700;line-height:1;color:var(--g)}
+.badge-risk{display:inline-block;padding:.6rem 1.6rem;border-radius:2rem;font-size:1.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+.risk-low{background:#3fa34d;color:#fff}.risk-medium{background:var(--amber);color:#2a1d00}.risk-high{background:var(--red);color:#fff}
+.chip{display:inline-block;padding:.15rem .7rem;border-radius:1rem;font-size:.8rem;font-weight:700;text-transform:uppercase}
+.chip.risk-low,.chip.risk-medium,.chip.risk-high{font-size:.8rem}
+.section-title{border-bottom:2px solid var(--g-pale);padding-bottom:.4rem;margin:1.5rem 0 1rem}
+.form-check-input:checked{background-color:var(--g);border-color:var(--g)}
+.form-control:focus,.form-select:focus{border-color:var(--g);box-shadow:0 0 0 .2rem rgba(23,143,67,.2)}
+.help{font-size:.82rem;color:var(--muted)}
+.table-matrix td,.table-matrix th{text-align:center}
+footer{color:var(--muted);font-size:.85rem}

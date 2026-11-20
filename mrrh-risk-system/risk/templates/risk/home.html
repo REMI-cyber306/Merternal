@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+  <div><h1 class="h3 mb-0">Dashboard</h1><p class="text-muted mb-0">Summary of {{ scope }} assessments</p></div>
+  <a class="btn btn-mrrh btn-lg" href="{% url 'assess_new' %}">+ New assessment</a>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3"><div class="card card-soft p-3"><div class="stat">{{ total }}</div><div class="text-muted">Total assessments</div></div></div>
+  <div class="col-6 col-md-3"><div class="card card-soft p-3"><div class="stat" style="color:#3fa34d">{{ counts.low }}</div><div class="text-muted">Low risk</div></div></div>
+  <div class="col-6 col-md-3"><div class="card card-soft p-3"><div class="stat" style="color:#b07a00">{{ counts.medium }}</div><div class="text-muted">Medium risk</div></div></div>
+  <div class="col-6 col-md-3"><div class="card card-soft p-3"><div class="stat" style="color:var(--red)">{{ counts.high }}</div><div class="text-muted">High risk</div></div></div>
+</div>
+<div class="card card-soft p-3">
+  <div class="d-flex justify-content-between align-items-center"><h2 class="h5 mb-0">Recent assessments</h2><a href="{% url 'history' %}">View all</a></div>
+  {% if recent %}
+  <div class="table-responsive mt-2"><table class="table align-middle mb-0">
+    <thead><tr><th>Study code</th><th>Category</th><th>Entered by</th><th>Date</th><th></th></tr></thead>
+    <tbody>{% for a in recent %}<tr><td>{{ a.study_id }}</td><td><span class="chip risk-{{ a.predicted_category }}">{{ a.predicted_category }}</span></td><td>{{ a.user.get_username }}</td><td>{{ a.created_at|date:"d M Y H:i" }}</td><td><a href="{% url 'assessment_detail' a.pk %}">Open</a></td></tr>{% endfor %}</tbody>
+  </table></div>
+  {% else %}<p class="text-muted mt-3 mb-0">No assessments yet. Start with <a href="{% url 'assess_new' %}">a new assessment</a>.</p>{% endif %}
+</div>
+{% endblock %}

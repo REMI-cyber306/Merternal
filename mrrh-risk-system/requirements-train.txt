@@ -1,0 +1,6 @@
+# Only needed on your own computer to regenerate data / retrain the model. NOT deployed to Vercel.
+-r requirements.txt
+scikit-learn>=1.5
+scipy>=1.13
+joblib>=1.4
+pandas>=2.2

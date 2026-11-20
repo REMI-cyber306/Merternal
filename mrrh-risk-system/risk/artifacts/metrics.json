@@ -1,0 +1,320 @@
+{
+  "version": "demo-20261111",
+  "trained_at": "2026-11-11T08:28:34+00:00",
+  "sklearn_version": "1.9.1",
+  "data": {
+    "source": "SYNTHETIC demonstration data (ml/generate_synthetic_data.py). Not MRRH data.",
+    "label": "Placeholder scoring rules plus 8% label noise. Not clinical guidance.",
+    "split": "patient-level and temporal: first seen 2021-2023 train, 2024 validation, 2025 test",
+    "partitions": {
+      "train": {
+        "encounters": 2721,
+        "patients": 1811,
+        "classes": {
+          "low": 1627,
+          "medium": 901,
+          "high": 193
+        }
+      },
+      "validation": {
+        "encounters": 1090,
+        "patients": 698,
+        "classes": {
+          "low": 674,
+          "medium": 336,
+          "high": 80
+        }
+      },
+      "test": {
+        "encounters": 1078,
+        "patients": 691,
+        "classes": {
+          "low": 648,
+          "medium": 357,
+          "high": 73
+        }
+      }
+    }
+  },
+  "features": [
+    "age",
+    "gestational_weeks",
+    "systolic_bp",
+    "diastolic_bp",
+    "glucose_mmol",
+    "temp_c",
+    "heart_rate",
+    "parity",
+    "headache",
+    "blurred_vision",
+    "vaginal_bleeding",
+    "abdominal_pain",
+    "fever",
+    "swelling",
+    "breathing_difficulty",
+    "previous_caesarean",
+    "pre_existing_condition"
+  ],
+  "candidates": [
+    {
+      "model": "Multinomial logistic regression",
+      "best_params": {
+        "C": 10.0
+      },
+      "cv_macro_f1_train": 0.6582065493667906,
+      "validation": {
+        "n": 1090,
+        "macro_f1": 0.6753197500501904,
+        "balanced_accuracy": 0.7334151712119071,
+        "accuracy": 0.7467889908256881,
+        "per_class": {
+          "low": {
+            "precision": 0.893030794165316,
+            "recall": 0.8175074183976261,
+            "f1": 0.8536018590240124,
+            "support": 674
+          },
+          "medium": {
+            "precision": 0.5988023952095808,
+            "recall": 0.5952380952380952,
+            "f1": 0.5970149253731343,
+            "support": 336
+          },
+          "high": {
+            "precision": 0.45323741007194246,
+            "recall": 0.7875,
+            "f1": 0.5753424657534246,
+            "support": 80
+          }
+        },
+        "high_risk_recall": 0.7875,
+        "confusion_matrix": {
+          "labels": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "matrix": [
+            [
+              551,
+              120,
+              3
+            ],
+            [
+              63,
+              200,
+              73
+            ],
+            [
+              3,
+              14,
+              63
+            ]
+          ]
+        },
+        "ovr_roc_auc": {
+          "low": 0.9015350376626341,
+          "medium": 0.782651256789188,
+          "high": 0.9426608910891089
+        },
+        "brier_multiclass": 0.36040282247012495
+      }
+    },
+    {
+      "model": "Random forest",
+      "best_params": {
+        "max_depth": 12,
+        "min_samples_leaf": 3,
+        "n_estimators": 100
+      },
+      "cv_macro_f1_train": 0.6723398328871694,
+      "validation": {
+        "n": 1090,
+        "macro_f1": 0.7338455945578614,
+        "balanced_accuracy": 0.7244483302717724,
+        "accuracy": 0.8091743119266055,
+        "per_class": {
+          "low": {
+            "precision": 0.9144215530903328,
+            "recall": 0.8560830860534124,
+            "f1": 0.8842911877394636,
+            "support": 674
+          },
+          "medium": {
+            "precision": 0.6616161616161617,
+            "recall": 0.7797619047619048,
+            "f1": 0.7158469945355191,
+            "support": 336
+          },
+          "high": {
+            "precision": 0.6825396825396826,
+            "recall": 0.5375,
+            "f1": 0.6013986013986014,
+            "support": 80
+          }
+        },
+        "high_risk_recall": 0.5375,
+        "confusion_matrix": {
+          "labels": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "matrix": [
+            [
+              577,
+              97,
+              0
+            ],
+            [
+              54,
+              262,
+              20
+            ],
+            [
+              0,
+              37,
+              43
+            ]
+          ]
+        },
+        "ovr_roc_auc": {
+          "low": 0.928037976489386,
+          "medium": 0.8565665656182897,
+          "high": 0.9529455445544556
+        },
+        "brier_multiclass": 0.300916120677327
+      }
+    },
+    {
+      "model": "Support vector machine",
+      "best_params": {
+        "C": 1.0,
+        "gamma": "scale"
+      },
+      "cv_macro_f1_train": 0.7139069840329919,
+      "validation": {
+        "n": 1090,
+        "macro_f1": 0.7236990481509556,
+        "balanced_accuracy": 0.7082497291696104,
+        "accuracy": 0.8146788990825689,
+        "per_class": {
+          "low": {
+            "precision": 0.9003021148036254,
+            "recall": 0.884272997032641,
+            "f1": 0.8922155688622755,
+            "support": 674
+          },
+          "medium": {
+            "precision": 0.6856368563685636,
+            "recall": 0.7529761904761905,
+            "f1": 0.7177304964539007,
+            "support": 336
+          },
+          "high": {
+            "precision": 0.6610169491525424,
+            "recall": 0.4875,
+            "f1": 0.5611510791366906,
+            "support": 80
+          }
+        },
+        "high_risk_recall": 0.4875,
+        "confusion_matrix": {
+          "labels": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "matrix": [
+            [
+              596,
+              77,
+              1
+            ],
+            [
+              64,
+              253,
+              19
+            ],
+            [
+              2,
+              39,
+              39
+            ]
+          ]
+        },
+        "ovr_roc_auc": {
+          "low": 0.9304275564939511,
+          "medium": 0.8707330743968676,
+          "high": 0.9425990099009901
+        },
+        "brier_multiclass": 0.26436170337408116
+      }
+    }
+  ],
+  "selected_model": "Random forest",
+  "deployment_note": null,
+  "selected_on": "validation macro-F1 (ties broken by high-risk recall)",
+  "test": {
+    "n": 1078,
+    "macro_f1": 0.7223818140592778,
+    "balanced_accuracy": 0.7023558450946759,
+    "accuracy": 0.8200371057513914,
+    "per_class": {
+      "low": {
+        "precision": 0.9093851132686084,
+        "recall": 0.8672839506172839,
+        "f1": 0.8878357030015798,
+        "support": 648
+      },
+      "medium": {
+        "precision": 0.7012048192771084,
+        "recall": 0.8151260504201681,
+        "f1": 0.7538860103626943,
+        "support": 357
+      },
+      "high": {
+        "precision": 0.6888888888888889,
+        "recall": 0.4246575342465753,
+        "f1": 0.5254237288135594,
+        "support": 73
+      }
+    },
+    "high_risk_recall": 0.4246575342465753,
+    "confusion_matrix": {
+      "labels": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "matrix": [
+        [
+          562,
+          85,
+          1
+        ],
+        [
+          53,
+          291,
+          13
+        ],
+        [
+          3,
+          39,
+          31
+        ]
+      ]
+    },
+    "ovr_roc_auc": {
+      "low": 0.9366602067183463,
+      "medium": 0.8713465968911837,
+      "high": 0.9435153002112724
+    },
+    "brier_multiclass": 0.29653894342234327,
+    "macro_f1_ci95_patient_bootstrap": [
+      0.6782331540833303,
+      0.7632585484329244
+    ]
+  },
+  "warning": "These figures describe the demo pipeline on synthetic data only. They are not evidence of performance or clinical validity at MRRH."
+}

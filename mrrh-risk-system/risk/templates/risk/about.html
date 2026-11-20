@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}About the model{% endblock %}
+{% block content %}
+<h1 class="h3">About the model</h1>
+<div class="card card-pale p-4 mb-4">
+  <h2 class="h5">What this prototype is</h2>
+  <p class="mb-2">A web-based decision-support prototype that estimates a <strong>low, medium or high</strong> maternal health risk category from recorded maternal and clinical values. It is the software part of the project <em>Machine Learning-Based Maternal Health Risk Prediction: A Case Study of Mbarara Regional Referral Hospital</em>.</p>
+  <p class="mb-0">It supports, and never replaces, clinical assessment and professional judgment. It does not diagnose, prescribe treatment or make referral decisions.</p>
+</div>
+{% if m %}
+<div class="card card-soft p-4 mb-4 border border-warning">
+  <h2 class="h5">Read this before trusting any number</h2>
+  <ul class="mb-0">
+    <li><strong>Data:</strong> {{ m.data.source }}</li>
+    <li><strong>Label:</strong> {{ m.data.label }}</li>
+    <li>{{ m.warning }}</li>
+    <li>Before the model can be called locally valid, MRRH records must contain a clinically approved, non-circular risk label, and the model must be evaluated on later local records (project proposal, sections 3.9 and 3.14).</li>
+  </ul>
+</div>
+<div class="card card-soft p-4 mb-4">
+  <h2 class="h5">How the three candidate models compared (validation set)</h2>
+  <p class="text-muted small">Data split: {{ m.data.split }}. Selection used validation macro-F1 only.</p>
+  <div class="table-responsive"><table class="table align-middle">
+    <thead><tr><th>Model</th><th>Macro-F1</th><th>Balanced accuracy</th><th>High-risk recall</th><th></th></tr></thead>
+    <tbody>{% for c in m.candidates %}<tr{% if c.model == m.selected_model %} class="table-success"{% endif %}><td>{{ c.model }}</td><td>{{ c.validation.macro_f1|floatformat:3 }}</td><td>{{ c.validation.balanced_accuracy|floatformat:3 }}</td><td>{{ c.validation.high_risk_recall|floatformat:3 }}</td><td>{% if c.model == m.selected_model %}<span class="chip" style="background:var(--g);color:#fff">selected</span>{% endif %}</td></tr>{% endfor %}</tbody>
+  </table></div>
+</div>
+<div class="card card-soft p-4 mb-4">
+  <h2 class="h5">Selected model on the held-out test set ({{ m.selected_model }})</h2>
+  <p class="text-muted small">The test set was used once, for this model only. Model version {{ m.version }}.</p>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <table class="table table-sm"><thead><tr><th>Class</th><th>Precision</th><th>Recall</th><th>F1</th><th>n</th></tr></thead>
+      <tbody>{% for name, v in m.test.per_class.items %}<tr><td class="text-capitalize">{{ name }}</td><td>{{ v.precision|floatformat:2 }}</td><td>{{ v.recall|floatformat:2 }}</td><td>{{ v.f1|floatformat:2 }}</td><td>{{ v.support }}</td></tr>{% endfor %}</tbody></table>
+      <p class="mb-0">Macro-F1 <strong>{{ m.test.macro_f1|floatformat:3 }}</strong> (95% patient-level bootstrap interval {{ m.test.macro_f1_ci95_patient_bootstrap.0|floatformat:2 }} to {{ m.test.macro_f1_ci95_patient_bootstrap.1|floatformat:2 }}). Multiclass Brier score {{ m.test.brier_multiclass|floatformat:3 }}.</p>
+    </div>
+    <div class="col-md-6">
+      <p class="mb-1 fw-semibold">Confusion matrix (rows = true class, columns = predicted)</p>
+      <table class="table table-sm table-bordered table-matrix">
+        <thead><tr><th></th>{% for l in m.test.confusion_matrix.labels %}<th class="text-capitalize">{{ l }}</th>{% endfor %}</tr></thead>
+        <tbody>{% for name, row in matrix_rows %}<tr><th class="text-capitalize">{{ name }}</th>{% for v in row %}<td>{{ v }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+      </table>
+      <p class="small text-muted mb-0">Class probabilities are stored for audit but are not shown to users until calibration has been assessed.</p>
+    </div>
+  </div>
+</div>
+{% else %}<div class="alert alert-warning">No model report found. Run <code>python ml/train.py</code>.</div>{% endif %}
+{% endblock %}

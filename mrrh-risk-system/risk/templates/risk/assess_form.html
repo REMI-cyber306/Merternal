@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}New assessment{% endblock %}
+{% block content %}
+<h1 class="h3">New assessment</h1>
+<p class="text-muted">Enter the values recorded at the assessment. The result is decision-support information for clinical review, not a diagnosis.</p>
+<form method="post" novalidate class="card card-soft p-4">{% csrf_token %}
+  {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+  {% if form.errors %}<div class="alert alert-danger">Please correct the highlighted values below.</div>{% endif %}
+  <h2 class="h5 section-title mt-0">Study code</h2>
+  <div class="row g-3">{% include "risk/_field.html" with f=form.study_id %}</div>
+
+  <h2 class="h5 section-title">Measurements</h2>
+  <div class="row g-3">
+    {% include "risk/_field.html" with f=form.age %}
+    {% include "risk/_field.html" with f=form.gestational_weeks %}
+    {% include "risk/_field.html" with f=form.systolic_bp %}
+    {% include "risk/_field.html" with f=form.diastolic_bp %}
+    {% include "risk/_field.html" with f=form.glucose_mmol %}
+    {% include "risk/_field.html" with f=form.temp_c %}
+    {% include "risk/_field.html" with f=form.heart_rate %}
+    {% include "risk/_field.html" with f=form.parity %}
+  </div>
+
+  <h2 class="h5 section-title">Symptoms present</h2>
+  <div class="row g-2">
+    {% include "risk/_check.html" with f=form.headache %}
+    {% include "risk/_check.html" with f=form.blurred_vision %}
+    {% include "risk/_check.html" with f=form.vaginal_bleeding %}
+    {% include "risk/_check.html" with f=form.abdominal_pain %}
+    {% include "risk/_check.html" with f=form.fever %}
+    {% include "risk/_check.html" with f=form.swelling %}
+    {% include "risk/_check.html" with f=form.breathing_difficulty %}
+  </div>
+
+  <h2 class="h5 section-title">Obstetric and medical history</h2>
+  <div class="row g-2">
+    {% include "risk/_check.html" with f=form.previous_caesarean %}
+    {% include "risk/_check.html" with f=form.pre_existing_condition %}
+  </div>
+
+  <div class="mt-4 d-flex gap-2">
+    <button class="btn btn-mrrh btn-lg" type="submit">Get risk category</button>
+    <a class="btn btn-outline-secondary btn-lg" href="{% url 'home' %}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

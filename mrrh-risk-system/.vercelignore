@@ -1,0 +1,9 @@
+# Keep the serverless bundle small: training data/scripts, docs and tests are not needed at runtime.
+ml/
+docs/
+tests/
+risk/tests.py
+db.sqlite3
+.env
+*.md
+requirements-train.txt
